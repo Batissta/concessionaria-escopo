@@ -5,16 +5,6 @@ import java.util.ArrayList;
 public class Itens{
 	private ArrayList<Item> produtos = new ArrayList<Item>();
 	
-	public boolean codigoExiste(long cod) {
-		boolean verdade = false;
-		for (Item item : produtos) {
-			if ((long)item.getCodigo() == (long) cod) {
-				verdade = true;
-			}
-		}
-		return verdade;
-	}
-	
 	public Item findCod(long cod) {
 		Item selecionado = null;
 		for (Item item : produtos) {
