@@ -9,9 +9,17 @@ public class Uteis {
 		System.out.println("----------------------------------------------------");
 	}
 	public static int leInt(String msg) {
-		System.out.print(msg);
-		int num = Integer.parseInt(t.nextLine());
-		return num;
+		int num = 0;
+		while(true){
+			System.out.print(msg);
+			try{
+		num = Integer.parseInt(t.nextLine());
+		break;
+		}catch(java.lang.NumberFormatException e){
+			System.out.println("//ERROR: Digite um numero inteiro//");
+		}
+	}
+	return num;
 	}
 	public static String leString(String msg) {
 		System.out.print(msg);
