@@ -42,14 +42,14 @@ public class Comercio {
 			}
 	} while (esc !=6);
 }
-	public void listar() {
+	private void listar() {
 		if (produtos.getProdutos().size() == 0) {
 			System.out.println("Nenhum carro foi cadastrado à concessionária");
 		}else {
 			produtos.listar();
 		}
 	}
-	public void cadastrar() {
+	private void cadastrar() {
 		String nomedoCarro = Uteis.leString("Digite o nome do carro: ");
 		while (true) {
 			int codigodoCarro = Uteis.leInt("Digite o código do carro: ");
@@ -67,14 +67,14 @@ public class Comercio {
 						System.out.println("Opção inválida. Você será redirecionado ao menu...");
 						break;}
 				}else {
-					produtos.cadastrar(new Item(nomedoCarro,codigodoCarro));
+					produtos.cadastrar(produtos.novoItem(nomedoCarro, codigodoCarro));
 					break;}
 			}else{
-				produtos.cadastrar(new Item(nomedoCarro,codigodoCarro));
+				produtos.cadastrar(produtos.novoItem(nomedoCarro, codigodoCarro));
 				break;}		
 			}
 	}
-	public void mudaEstoque(String n) {
+	private void mudaEstoque(String n) {
 		if(produtos.getProdutos().size() >0) {
 			int codAcesso = Uteis.leInt("Digite o código de acesso do carro: ");
 			if (produtos.findCod(codAcesso) != null){
@@ -88,7 +88,7 @@ public class Comercio {
 			System.out.println("Nenhum carro foi cadastrado à concessionária");
 		}
 	}
-	public void remover() {
+	private void remover() {
 		if(produtos.getProdutos().size() >0) {
 			while (true) {
 				int codigodoCarro = Uteis.leInt("Digite o código do carro: ");
