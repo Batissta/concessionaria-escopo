@@ -1,17 +1,16 @@
 package classes;
 
 import java.util.ArrayList;
-import util.Uteis;
 
 public class Comercio {
 	private ArrayList<Item> produtos = new ArrayList<>();
 	
 	public void menu() {
-		System.out.println("Concessionária FUTURE");
-		int esc = 6;
-		do {
+		System.out.println("Seja bem-vindo à Concessionária FUTURE");
+		int esc = 0;
+		while (esc !=6){
 			System.out.printf(
-					"-----------------------%s-----------------------\n1) Listar carros cadastrados.\n"+ "2) Cadastrar novo carro.\n"+ "3) Adicionar estoque a um carro existente.\n"+ "4) Remover um produto do comércio.\n"
+					"------------------------%s------------------------\n1) Listar carros cadastrados.\n"+ "2) Cadastrar novo carro.\n"+ "3) Adicionar estoque a um carro existente.\n"+ "4) Remover um produto do comércio.\n"
 					+ "5) Vender algum produto existente.\n"+ "6) Sair\n", "Menu");
 			esc = Uteis.leInt("Sua escolha: ");
 			Uteis.mostrarLinha();
@@ -37,7 +36,7 @@ public class Comercio {
 			default:
 				System.out.println("Opção inválida...");
 			}
-	} while (esc !=6);
+	} 
 }
 	private void listar() {
 		if (produtos.size() == 0) {
@@ -52,12 +51,6 @@ public class Comercio {
 			}
 		}
 	}
-	private void novoItem(String nome, int cod) {
-		Item i = new Item(nome, cod);
-		produtos.add(i);
-		System.out.printf("%s cadastrado com sucesso!\n", i.getNome());
-	}
-	
 	private void cadastrar() {
 		String nomedoCarro = Uteis.leString("Digite o nome do carro: ");
 		while (true) {
@@ -76,10 +69,12 @@ public class Comercio {
 						System.out.println("Opção inválida. Você será redirecionado ao menu...");
 						break;}
 				}else {
-					novoItem(nomedoCarro, codigodoCarro);
+					produtos.add(new Item(nomedoCarro, codigodoCarro));
+					System.out.printf("%s cadastrado com sucesso!\n", nomedoCarro);
 					break;}
 			}else{
-				novoItem(nomedoCarro, codigodoCarro);
+				produtos.add(new Item(nomedoCarro, codigodoCarro));
+				System.out.printf("%s cadastrado com sucesso!\n", nomedoCarro);
 				break;}		
 			}
 	}
@@ -88,10 +83,17 @@ public class Comercio {
 			int codAcesso = Uteis.leInt("Digite o código de acesso do carro: ");
 			if (findCod(codAcesso) != null){
 				int unidadesAModificar = Uteis.leInt("Digite quantas unidades você deseja "+ n.toLowerCase()+": ");
-				if (n.toLowerCase().equals("adicionar")) adicionar(codAcesso, unidadesAModificar);
-				else if (n.toLowerCase().equals("vender")) vender(codAcesso, unidadesAModificar);
+				Item i = findCod(codAcesso);
+				if (n.toLowerCase().equals("adicionar")) {
+					i.addEstoque(unidadesAModificar);
+					System.out.printf("Estoque do %s foi adicionado com sucesso!\n", i.getNome());
+				}
+				else if (n.toLowerCase().equals("vender")) {
+					i.venderEstoque(unidadesAModificar);
+					System.out.printf("%d unidades de %s foram vendidas com sucesso!\n", unidadesAModificar, i.getNome());
+				}
 			}else {
-				System.out.println("Código inválido. Não temos nenhum carro com esse acesso.");
+				System.out.println("Código inválido.\nNão temos nenhum carro com esse acesso.");
 			}
 		}else {
 			System.out.println("Nenhum carro foi cadastrado à concessionária");
@@ -137,24 +139,4 @@ public class Comercio {
 		}
 		return selecionado;
 	}
-	private void vender(long cod, int aVender) {
-		Item selecionado = findCod(cod);
-		if (selecionado.getEstoque() < aVender) {
-			System.out.printf("Impossível vender %d unidade(s) do %s.\n",
-					aVender, selecionado.getNome());
-			if (selecionado.getEstoque() > 0) {
-				System.out.printf("%d unidades disponivéis.\n",selecionado.getEstoque());
-			}else {
-				System.out.println("Nenhuma unidade disponível.");
-			}
-		}else {
-			selecionado.venderEstoque(aVender);
-			System.out.printf("%d unidades de %s foram vendidas!\n", aVender, selecionado.getNome());
-	}
-	}
-	private void adicionar(long cod, int adiciona) {
-		Item selecionado = findCod(cod);
-		selecionado.addEstoque(adiciona);
-		System.out.printf("Estoque do %s foi adicionado com sucesso!\n", selecionado.getNome());
-}
 }
